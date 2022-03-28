@@ -16,6 +16,21 @@ describe('hasContent', () => {
     expect(normalizedContent).toEqual(false);
   });
 
+  it('returns true for number content', () => {
+    const normalizedContent = hasContent('integer', 1);
+    expect(normalizedContent).toEqual(true);
+  });
+
+  it('returns false for empty text content', () => {
+    const normalizedContent = hasContent('integer', '1');
+    expect(normalizedContent).toEqual(false);
+  });
+
+  it('returns false for undefined text content', () => {
+    const normalizedContent = hasContent('integer', undefined);
+    expect(normalizedContent).toEqual(false);
+  });
+
   it('extracts content from single components with content', () => {
     const normalizedContent = hasContent(
       'component',
@@ -30,6 +45,24 @@ describe('hasContent', () => {
       'component',
       { name: '', id: 1 },
       { mainField: { name: 'name' } }
+    );
+    expect(normalizedContent).toEqual(false);
+  });
+
+  it('extracts numbers from single components with content', () => {
+    const normalizedContent = hasContent(
+      'component',
+      { number: 1, id: 1 },
+      { mainField: { name: 'number' } }
+    );
+    expect(normalizedContent).toEqual(true);
+  });
+
+  it('extracts numbers from single components without content', () => {
+    const normalizedContent = hasContent(
+      'component',
+      { number: null, id: 1 },
+      { mainField: { name: 'number' } }
     );
     expect(normalizedContent).toEqual(false);
   });
